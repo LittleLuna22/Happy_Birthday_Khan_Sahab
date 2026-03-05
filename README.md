@@ -1,2 +1,393 @@
 # Happy_Birthday_Khan_Sahab
 🎀 Yamman Birthday Website — A Heartfelt Digital Surprise  This project is a beautifully designed, interactive birthday website created as a heartfelt gift for Khan Sahab. It combines soft, dreamy aesthetics with emotional animations, cute illustrations, glitter effects, and a warm message that reflects gratitude, and appreciation.
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy 20th Birthday</title>
+    <!-- Standard Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;400;600&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+    <style>
+        /* CSS REFACTOR FOR ACODE/MOBILE COMPATIBILITY */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #050505;
+            color: white;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1s ease-out;
+        }
+
+        .hidden { display: none !important; }
+
+        /* Page 1 Specifics */
+        #page1 { background-color: #000; z-index: 10; }
+        #matrixCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.4;
+        }
+
+        #countdown {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #dc2626;
+            text-shadow: 0 0 20px rgba(220, 38, 38, 0.8);
+            z-index: 11;
+            transition: transform 0.2s ease;
+        }
+
+        .quote-text {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-align: center;
+            margin-top: 2rem;
+            opacity: 0;
+            transition: opacity 1s ease;
+            z-index: 11;
+        }
+
+        /* Page 2 Specifics */
+        #page2 { background-color: #000; z-index: 9; }
+        .bg-img-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+        }
+        .bg-img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0.2;
+            filter: grayscale(100%);
+        }
+
+        .prayer-content {
+            z-index: 5;
+            padding: 2rem;
+            text-align: center;
+            font-style: italic;
+            font-size: 1.25rem;
+            line-height: 1.6;
+            min-height: 250px;
+        }
+
+        .next-btn {
+            z-index: 10;
+            margin-top: 2rem;
+            padding: 0.75rem 2.5rem;
+            background: transparent;
+            border: 1px solid rgba(185, 28, 28, 0.5);
+            color: #f87171;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.7rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        /* Page 3 Specifics */
+        #page3 { background-color: #111827; z-index: 8; }
+        .spider-btn {
+            cursor: pointer;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(153, 27, 27, 0.3);
+            border-radius: 50%;
+            margin-bottom: 2rem;
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0% { filter: drop-shadow(0 0 5px #ef4444); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 15px #ef4444); transform: scale(1.05); }
+            100% { filter: drop-shadow(0 0 5px #ef4444); transform: scale(1); }
+        }
+
+        .secret-txt {
+            font-size: 1.2rem;
+            color: #d1d5db;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Page 4 Specifics */
+        #page4 { background: #fff; z-index: 7; color: #831843; }
+        .pastel-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #fdf2f8 0%, #fbcfe8 100%);
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+
+        .avatar-container {
+            width: 250px;
+            height: 250px;
+            border: 4px solid white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            animation: floating 6s ease-in-out infinite;
+            margin-bottom: 1.5rem;
+        }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        .h-main { font-size: 2rem; margin-bottom: 0.5rem; }
+        .h-sub { font-size: 1.1rem; opacity: 0.8; font-weight: 200; }
+
+        /* Utility Classes for Fades */
+        .fade-out-active { opacity: 0; pointer-events: none; }
+    </style>
+</head>
+<body>
+
+    <div id="app">
+        <!-- PAGE 1 -->
+        <section id="page1" class="screen">
+            <canvas id="matrixCanvas"></canvas>
+            <div id="countdown">3</div>
+            <div id="intro-text" class="quote-text">
+                For someone who keeps climbing…<br>even in silence.
+            </div>
+        </section>
+
+        <!-- PAGE 2 -->
+        <section id="page2" class="screen hidden">
+            <div class="bg-img-container">
+                <img src="1000287877.jpg" class="bg-img" alt="">
+            </div>
+            <div id="prayer-container" class="prayer-content"></div>
+            <button id="btn-page2" class="next-btn">Next</button>
+            <div id="hearts-container"></div>
+        </section>
+
+        <!-- PAGE 3 -->
+        <section id="page3" class="screen hidden">
+            <div id="spider-symbol" class="spider-btn">
+                <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="1.5">
+                    <path d="M12 2c-3 0-5 2-5 5v2h10V7c0-3-2-5-5-5z"></path>
+                    <path d="M12 14v8M8 17l-3 3M16 17l3 3M17 9.5l4-1.5M17 12.5l4 1.5M7 9.5L3 8M7 12.5L3 14"></path>
+                    <circle cx="12" cy="12" r="3" fill="#dc2626"></circle>
+                </svg>
+            </div>
+            <div id="secret-wrap" class="hidden" style="text-align: center; padding: 0 2rem;">
+                <p class="secret-txt">"Not everyone understands the weight you carry.<br>But still… you show up.<br>Still you create.<br>Still you climb."</p>
+                <p style="font-size: 0.6rem; letter-spacing: 0.2em; color: #6b7280; text-transform: uppercase;">This stays here. Quiet. Just like your strength.</p>
+                <button id="btn-page3" class="next-btn" style="opacity: 1; position: relative;">One last thing</button>
+            </div>
+        </section>
+
+        <!-- PAGE 4 -->
+        <section id="page4" class="screen hidden">
+            <div id="pastel-layer" class="pastel-layer"></div>
+            <div id="reveal-content" style="z-index: 10; text-align: center; opacity: 0; transition: opacity 1.5s;">
+                <div class="avatar-container">
+                    <img src="birthday image 1.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="">
+                </div>
+                <h1 class="h-main">Happy 20th Birthday 🕷️🎂</h1>
+                <p class="h-sub">May this year be kinder to you.</p>
+                <p style="font-size: 1.1rem; margin-top: 1.2rem; opacity: 0.6;">And may you never stop becoming better than yesterday. You may forget me but you'll always remain in all my paryers. Stay happy because that smile look beautiful on your face Khan Sahab</p>
+                <p style="font-size: 0.8rem; margin-top: 6rem; font-weight: bold italics; text-transform: uppercase; letter-spacing: 0.2em;">From that dumbo who believes in you Khan Sahab that you achieve everything you want.</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // ES5 COMPATIBLE JAVASCRIPT
+        var app = {
+            init: function() {
+                this.initMatrix();
+                this.startCountdown();
+                this.setupButtons();
+            },
+
+            initMatrix: function() {
+                var canvas = document.getElementById('matrixCanvas');
+                var ctx = canvas.getContext('2d');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+
+                var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                var fontSize = 16;
+                var columns = canvas.width / fontSize;
+                var drops = [];
+                for (var i = 0; i < columns; i++) drops[i] = 1;
+
+                function draw() {
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                    ctx.fillRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = '#b91c1c';
+                    ctx.font = fontSize + 'px monospace';
+
+                    for (var i = 0; i < drops.length; i++) {
+                        var text = chars.charAt(Math.floor(Math.random() * chars.length));
+                        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                        drops[i]++;
+                    }
+                }
+                this.matrixInterval = setInterval(draw, 33);
+            },
+
+            startCountdown: function() {
+                var count = 3;
+                var countEl = document.getElementById('countdown');
+                var introEl = document.getElementById('intro-text');
+                var self = this;
+
+                var timer = setInterval(function() {
+                    count--;
+                    if (count > 0) {
+                        countEl.innerText = count;
+                    } else {
+                        clearInterval(timer);
+                        countEl.style.display = 'none';
+                        introEl.style.opacity = '1';
+                        
+                        setTimeout(function() {
+                            self.transition('page1', 'page2');
+                            clearInterval(self.matrixInterval);
+                        }, 3000);
+                    }
+                }, 1000);
+            },
+
+            transition: function(fromId, toId) {
+                var fromPage = document.getElementById(fromId);
+                var toPage = document.getElementById(toId);
+                
+                fromPage.classList.add('fade-out-active');
+                setTimeout(function() {
+                    fromPage.classList.add('hidden');
+                    toPage.classList.remove('hidden');
+                    if (toId === 'page2') app.initPage2();
+                    if (toId === 'page4') app.initPage4();
+                }, 1000);
+            },
+
+            initPage2: function() {
+                var lines = [
+                    "May Allah protect you from unseen harm.",
+                    "May your voice stay strong even when the world is loud.",
+                    "May your rizq, success, and peace grow quietly…",
+                    "Ameen."
+                ];
+                var container = document.getElementById('prayer-container');
+                var lineIdx = 0;
+                var charIdx = 0;
+
+                function type() {
+                    if (lineIdx < lines.length) {
+                        if (charIdx === 0) {
+                            var p = document.createElement('p');
+                            p.style.marginBottom = '1rem';
+                            if(lineIdx === 3) p.style.color = '#f87171';
+                            container.appendChild(p);
+                        }
+                        var ps = container.getElementsByTagName('p');
+                        ps[ps.length - 1].innerHTML += lines[lineIdx].charAt(charIdx);
+                        charIdx++;
+
+                        if (charIdx < lines[lineIdx].length) {
+                            setTimeout(type, 50);
+                        } else {
+                            lineIdx++;
+                            charIdx = 0;
+                            setTimeout(type, 800);
+                        }
+                    } else {
+                        document.getElementById('btn-page2').style.opacity = '1';
+                        document.getElementById('btn-page2').style.transform = 'translateY(0)';
+                    }
+                }
+                setTimeout(type, 500);
+                this.initHearts();
+            },
+
+            initHearts: function() {
+                var container = document.getElementById('hearts-container');
+                setInterval(function() {
+                    var h = document.createElement('div');
+                    h.innerHTML = '♥';
+                    h.style.position = 'absolute';
+                    h.style.color = '#991b1b';
+                    h.style.left = Math.random() * 100 + 'vw';
+                    h.style.bottom = '-20px';
+                    h.style.opacity = '0.4';
+                    h.style.fontSize = (10 + Math.random() * 20) + 'px';
+                    h.style.transition = 'all 6s linear';
+                    container.appendChild(h);
+
+                    setTimeout(function() {
+                        h.style.bottom = '110vh';
+                        h.style.transform = 'translateX(' + (Math.random() * 100 - 50) + 'px)';
+                    }, 50);
+
+                    setTimeout(function() { h.parentNode.removeChild(h); }, 6000);
+                }, 1000);
+            },
+
+            initPage4: function() {
+                setTimeout(function() {
+                    document.getElementById('pastel-layer').style.opacity = '1';
+                }, 100);
+                setTimeout(function() {
+                    document.getElementById('reveal-content').style.opacity = '1';
+                }, 1500);
+            },
+
+            setupButtons: function() {
+                var self = this;
+                document.getElementById('btn-page2').onclick = function() {
+                    self.transition('page2', 'page3');
+                };
+
+                document.getElementById('spider-symbol').onclick = function() {
+                    this.style.display = 'none';
+                    document.getElementById('secret-wrap').classList.remove('hidden');
+                };
+
+                document.getElementById('btn-page3').onclick = function() {
+                    self.transition('page3', 'page4');
+                };
+            }
+        };
+
+        // Standard window onload for Acode stability
+        window.onload = function() {
+            app.init();
+        };
+    </script>
+</body>
+</html>
